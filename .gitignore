@@ -17,3 +17,15 @@ data/processed/*
 
 # OS
 .DS_Store
+
+# dbt generated files
+customer_analytics_dbt/target/
+customer_analytics_dbt/logs/
+customer_analytics_dbt/dbt_packages/
+
+# dbt local profile
+customer_analytics_dbt/profiles.yml
+
+# Logs
+logs/
+airflow/logs/

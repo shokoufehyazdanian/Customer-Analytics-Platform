@@ -3,8 +3,7 @@ from pathlib import Path
 from database import get_engine
 
 
-DATA_PATH = Path("data/raw")
-
+DATA_PATH = Path("/opt/airflow/data/raw")
 
 def load_csv_to_postgres():
 
