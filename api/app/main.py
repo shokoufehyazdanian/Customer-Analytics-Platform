@@ -1,47 +1,26 @@
+from app.model import predict_churn
+from app.schemas import CustomerFeatures
 from fastapi import FastAPI
 
-from app.schemas import CustomerFeatures
-from app.model import predict_churn
-
-
-
-app = FastAPI(
-    title="Customer Churn Prediction API"
-)
-
+app = FastAPI(title="Customer Churn Prediction API")
 
 
 @app.get("/")
 def home():
 
-    return {
-        "message":
-        "Churn API is running"
-    }
-
+    return {"message": "Churn API is running"}
 
 
 @app.post("/predict")
-def predict(
-    customer: CustomerFeatures
-):
+def predict(customer: CustomerFeatures):
 
     features = [
-
         customer.frequency,
-
         customer.monetary,
-
         customer.recency,
-
-        customer.avg_order_value
-
+        customer.avg_order_value,
     ]
 
-
-    result = predict_churn(
-        features
-    )
-
+    result = predict_churn(features)
 
     return result

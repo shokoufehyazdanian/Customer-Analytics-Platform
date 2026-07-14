@@ -7,8 +7,7 @@ connection_string = (
 )
 
 data_source = context.data_sources.add_sql(
-    name="postgres_customer_db",
-    connection_string=connection_string
+    name="postgres_customer_db", connection_string=connection_string
 )
 
 print(data_source)

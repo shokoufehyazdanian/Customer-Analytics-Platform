@@ -1,9 +1,11 @@
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+
 from database import get_engine
 
-
 DATA_PATH = Path("/opt/airflow/data/raw")
+
 
 def load_csv_to_postgres():
 
@@ -19,16 +21,9 @@ def load_csv_to_postgres():
 
         df = pd.read_csv(file)
 
-        df.to_sql(
-            table_name,
-            engine,
-            if_exists="replace",
-            index=False
-        )
+        df.to_sql(table_name, engine, if_exists="replace", index=False)
 
-        print(
-            f"{table_name} loaded: {len(df)} rows"
-        )
+        print(f"{table_name} loaded: {len(df)} rows")
 
 
 if __name__ == "__main__":

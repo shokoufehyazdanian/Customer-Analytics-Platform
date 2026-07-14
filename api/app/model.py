@@ -1,6 +1,6 @@
 from pathlib import Path
-import joblib
 
+import joblib
 
 MODEL_PATH = Path(__file__).parent.parent / "models" / "churn_model.pkl"
 
@@ -17,13 +17,10 @@ def get_model():
     return model
 
 
-
 def predict_churn(features):
 
     model = get_model()
 
     prediction = model.predict([features])
 
-    return {
-        "prediction": int(prediction[0])
-    }
+    return {"prediction": int(prediction[0])}

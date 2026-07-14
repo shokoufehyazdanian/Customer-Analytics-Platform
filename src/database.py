@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
@@ -13,10 +14,7 @@ def get_engine():
     user = os.getenv("POSTGRES_USER")
     password = os.getenv("POSTGRES_PASSWORD")
 
-    connection_string = (
-        f"postgresql://{user}:{password}"
-        f"@{host}:{port}/{database}"
-    )
+    connection_string = f"postgresql://{user}:{password}" f"@{host}:{port}/{database}"
 
     engine = create_engine(connection_string)
     print(os.getenv("POSTGRES_PASSWORD"))

@@ -1,26 +1,13 @@
-import pandas as pd
 import joblib
-
 import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import (ConfusionMatrixDisplay, classification_report,
+                             confusion_matrix, roc_auc_score, roc_curve)
 
-from sklearn.metrics import (
-    confusion_matrix,
-    ConfusionMatrixDisplay,
-    roc_curve,
-    roc_auc_score,
-    classification_report
-)
+DATA_PATH = "ml/data/training/customer_churn.csv"
 
 
-DATA_PATH = (
-    "ml/data/training/customer_churn.csv"
-)
-
-
-MODEL_PATH = (
-    "ml/models/churn_model.pkl"
-)
-
+MODEL_PATH = "ml/models/churn_model.pkl"
 
 
 # Load data
@@ -28,18 +15,10 @@ df = pd.read_csv(DATA_PATH)
 
 
 # Load model
-model = joblib.load(
-    MODEL_PATH
-)
+model = joblib.load(MODEL_PATH)
 
 
-
-features = [
-    "frequency",
-    "monetary",
-    "avg_order_value",
-    "customer_lifetime_days"
-]
+features = ["frequency", "monetary", "avg_order_value", "customer_lifetime_days"]
 
 
 X = df[features]
@@ -47,101 +26,64 @@ X = df[features]
 y = df["churn"]
 
 
-
 # Prediction
-
 predictions = model.predict(X)
 
-probabilities = model.predict_proba(X)[:,1]
-
+probabilities = model.predict_proba(X)[:, 1]
 
 
 # ==========================
 # Metrics
 # ==========================
 
-auc = roc_auc_score(
-    y,
-    probabilities
-)
+auc = roc_auc_score(y, probabilities)
 
 
-print(
-    "ROC-AUC:",
-    auc
-)
+print("ROC-AUC:", auc)
 
 
-print(
-    classification_report(
-        y,
-        predictions
-    )
-)
-
+print(classification_report(y, predictions))
 
 
 # ==========================
 # Confusion Matrix
 # ==========================
 
-cm = confusion_matrix(
-    y,
-    predictions
-)
+cm = confusion_matrix(y, predictions)
 
 
-display = ConfusionMatrixDisplay(
-    confusion_matrix=cm
-)
+display = ConfusionMatrixDisplay(confusion_matrix=cm)
 
 
 display.plot()
 
-plt.title(
-    "Churn Confusion Matrix"
-)
-
+plt.title("Churn Confusion Matrix")
 
 plt.show()
-
 
 
 # ==========================
 # ROC Curve
 # ==========================
 
-fpr, tpr, thresholds = roc_curve(
-    y,
-    probabilities
-)
+fpr, tpr, thresholds = roc_curve(y, probabilities)
 
 
 plt.figure()
 
-plt.plot(
-    fpr,
-    tpr
-)
+plt.plot(fpr, tpr)
 
 
-plt.xlabel(
-    "False Positive Rate"
-)
+plt.xlabel("False Positive Rate")
 
 
-plt.ylabel(
-    "True Positive Rate"
-)
+plt.ylabel("True Positive Rate")
 
 
-plt.title(
-    "Churn ROC Curve"
-)
+plt.title("Churn ROC Curve")
 
 
 plt.show()
-
 
 
 # ==========================
@@ -149,24 +91,14 @@ plt.show()
 # ==========================
 
 importance = pd.DataFrame(
-    {
-        "feature": features,
-        "importance": model.feature_importances_
-    }
+    {"feature": features, "importance": model.feature_importances_}
 )
 
 
-importance = importance.sort_values(
-    by="importance",
-    ascending=False
-)
+importance = importance.sort_values(by="importance", ascending=False)
 
 
-print(
-    "\nFeature Importance:"
-)
+print("\nFeature Importance:")
 
 
-print(
-    importance
-)
+print(importance)

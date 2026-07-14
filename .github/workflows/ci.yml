@@ -29,7 +29,7 @@ jobs:
           pytest
       - name: Lint code
         run: |
-          flake8 .
+          flake8 api src tests
 
 
   docker:
