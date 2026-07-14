@@ -27,6 +27,9 @@ jobs:
           PYTHONPATH: .
         run: |
           pytest
+      - name: Lint code
+        run: |
+          flake8 .
 
 
   docker:
