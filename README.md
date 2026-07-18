@@ -173,7 +173,7 @@ ROC-AUC:
 
 Clone repository:
 
-git clone YOUR_REPOSITORY_URL
+git clone [YOUR_REPOSITORY_URL](https://github.com/shokoufehyazdanian/Customer-Analytics-Platform)
 
 
 Create environment:
