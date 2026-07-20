@@ -200,7 +200,11 @@ Dataset Setup:
 
 Raw datasets are not included in this repository because of their size.
 
-Download the dataset and place the CSV files inside:
+Download the Brazilian E-Commerce Public Dataset by Olist from Kaggle:
+
+https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+
+After downloading, extract the CSV files into:
 
 data/raw/
 
