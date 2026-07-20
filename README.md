@@ -50,7 +50,9 @@ flowchart LR
 
     H --> J[FastAPI<br/>Churn Prediction API]
 
-    K[Airflow Scheduler] --> E
+    K[Airflow Scheduler<br/>Workflow Orchestration] --> B
+    K --> D
+    K --> E
     K --> H
 
 ```
