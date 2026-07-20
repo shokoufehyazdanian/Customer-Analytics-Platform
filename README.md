@@ -38,6 +38,40 @@ flowchart TD
 
     G --> H[FastAPI<br/>ML Prediction API]
 ```
+
+```mermaid
+
+flowchart LR
+
+    A[CSV Raw Data<br/>Olist Dataset] --> B[Python Data Loader<br/>Docker Container]
+
+    B --> C[(PostgreSQL<br/>Raw Tables)]
+
+    C --> D[Great Expectations<br/>Data Validation]
+
+    C --> E[dbt Transformations<br/>Staging Models + Marts]
+
+    E --> F[Analytics Warehouse<br/>Customer KPIs]
+
+    F --> G[Power BI Dashboard<br/>Business Insights]
+
+    E --> H[Feature Engineering<br/>Customer Features]
+
+    H --> I[ML Pipeline<br/>Scikit-learn / XGBoost]
+
+    I --> J[MLflow<br/>Experiment Tracking]
+
+    I --> K[FastAPI<br/>Churn Prediction API]
+
+    L[Airflow<br/>Workflow Orchestration] --> B
+    L --> D
+    L --> E
+
+    M[Docker Compose] --> B
+    M --> C
+    M --> L
+    M --> K
+```
 ## Tech Stack
 
 ### Data Engineering
