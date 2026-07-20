@@ -113,12 +113,12 @@ data/raw/
 Expected files:
 
 data/raw/
-
+```text
 ├── olist_orders_dataset.csv
 ├── olist_order_items_dataset.csv
 ├── olist_products_dataset.csv
 └── olist_order_reviews_dataset.csv
-
+```
 The data_loader container automatically imports these files into PostgreSQL.
 
 2. Data validation
