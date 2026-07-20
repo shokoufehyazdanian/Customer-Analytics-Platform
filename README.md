@@ -157,7 +157,8 @@ data/raw/
 ├── olist_order_payments_dataset.csv
 └── product_category_name_translation.csv
 ```
-The data_loader container automatically imports these files into PostgreSQL.
+The data_loader Docker service executes load_raw_data.py
+and loads raw Olist datasets into the PostgreSQL raw layer.
 
 2. Data validation
 
@@ -351,7 +352,21 @@ Run data quality tests:
 dbt test
 ```
 
----
+dbt creates:
+- staging models
+- fact tables
+- customer analytics marts
+- business KPI models
+
+## Analytics Models
+
+dbt creates analytical tables including:
+
+- fact_orders
+- mart_customer_rfm
+- mart_customer_segments
+- mart_sales_summary
+- mart_product_performance
 
 ## 6. Access Applications
 
