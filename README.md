@@ -75,9 +75,9 @@ customer-analytics-platform/
 
         
 ├── data_loader/ 
-│    ├── Dockerfile 
-│    ├── requirements.txt 
-│    └── load_data.py
+│    ├── Dockerfile/
+│    ├── requirements.txt/
+│    └── load_data.py/
 
 
 ├── src/
