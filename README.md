@@ -27,53 +27,35 @@ to answer these questions.
 
 ## Architecture
 ```mermaid
+flowchart LR
 
+    A[Olist CSV Dataset<br/>data/raw] --> B[Docker Data Loader<br/>Python + Pandas]
 
+    B --> C[(PostgreSQL<br/>Raw Layer)]
 
+    C --> D[Great Expectations<br/>Data Validation]
 
+    C --> E[dbt Transformation Layer]
 
-Claim offer
+    E --> E1[Staging Models]
+    E --> E2[Analytics Marts]
 
-Today 6:28 PM
-Customer Analytics Platform
-End-to-End Data Analytics & Machine Learning Platform
+    E2 --> F[Power BI Dashboard]
 
-This project demonstrates an end-to-end analytics platform built with modern data engineering, analytics and machine learning tools.
+    E2 --> G[Feature Engineering]
 
-The goal is to analyze customer behavior, generate business insights, and predict customer churn.
+    G --> H[ML Pipeline<br/>Scikit-learn/XGBoost]
 
-Business Problem
-E-commerce companies need to understand:
+    H --> I[MLflow<br/>Experiment Tracking]
 
-Which customers generate the most value?
-Which products drive revenue?
-Which customers are at risk of churn?
-How can data support business decisions?
-This project builds a complete analytics pipeline to answer these questions.
+    H --> J[FastAPI<br/>Churn Prediction API]
 
-Architecture
+    K[Airflow Scheduler<br/>Workflow Orchestration] --> B
+    K --> D
+    K --> E
+    K --> H
+```
 
-Tech Stack
-Data Engineering
-Python
-PostgreSQL
-Docker
-dbt
-Great Expectations
-Analytics
-SQL
-Pandas
-Power BI
-Machine Learning
-Scikit-learn
-XGBoost
-MLflow
-Deployment
-FastAPI
-Docker
-GitHub Actions
-Project Structure
-customer-analytics-platform/
 
 .
 ├── data
