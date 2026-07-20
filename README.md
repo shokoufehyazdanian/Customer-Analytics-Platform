@@ -48,7 +48,6 @@ flowchart LR
     K[Airflow Scheduler] --> E
     K --> H
 
-این بهتر نشان می‌دهد که Airflow کجاست.
 ```
 
 ## Docker Services
