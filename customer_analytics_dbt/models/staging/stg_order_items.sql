@@ -14,4 +14,4 @@ select
 
     freight_value
 
-from public.olist_order_items_dataset
+from {{ source('ecommerce', 'olist_order_items_dataset') }}
