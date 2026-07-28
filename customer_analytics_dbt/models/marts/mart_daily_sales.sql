@@ -6,7 +6,7 @@ with daily_sales as (
 
         count(distinct o.order_id) as orders,
 
-        sum(oi.price) as revenue
+        sum(oi.item_price) as revenue
 
     from {{ ref('fact_orders') }} o
 
