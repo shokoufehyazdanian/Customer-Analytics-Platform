@@ -4,9 +4,9 @@ select
 
     product_category_name,
 
-    product_name_lenght,
+    product_name_lenght as product_name_length,
 
-    product_description_lenght,
+    product_description_lenght as product_description_length,
 
     product_photos_qty,
 
@@ -18,4 +18,4 @@ select
 
     product_width_cm
 
-from public.olist_products_dataset
+from {{ source('ecommerce', 'olist_products_dataset') }}
