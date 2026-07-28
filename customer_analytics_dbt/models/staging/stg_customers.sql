@@ -1,20 +1,13 @@
 select
 
-    o.order_id,
+    customer_id,
 
-    o.customer_id,
+    customer_unique_id,
 
-    c.customer_unique_id,
+    customer_zip_code_prefix,
 
-    o.order_status,
+    customer_city,
 
-    o.order_purchase_timestamp::timestamp as purchase_date,
+    customer_state
 
-    o.order_delivered_customer_date::timestamp as delivery_date
-
-
-from public.olist_orders_dataset o
-
-left join public.olist_customers_dataset c
-
-on o.customer_id = c.customer_id
+from {{ source('ecommerce', 'olist_customers_dataset') }}
