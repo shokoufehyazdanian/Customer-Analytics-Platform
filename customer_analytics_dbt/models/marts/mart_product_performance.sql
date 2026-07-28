@@ -4,15 +4,11 @@ with product_sales as (
 
         product_id,
 
-        count(distinct order_id)
-            as total_orders,
+        count(distinct order_id) as total_orders,
 
-        sum(price)
-            as total_revenue,
+        sum(item_price) as total_revenue,
 
-        avg(price)
-            as average_price
-
+        avg(item_price) as average_price
 
     from {{ ref('stg_order_items') }}
 
@@ -29,7 +25,6 @@ product_info as (
 
         product_category_name
 
-
     from {{ ref('stg_products') }}
 
 ),
@@ -39,67 +34,45 @@ reviews as (
 
     select
 
-        order_id,
+        oi.product_id,
 
-        avg(review_score)
-            as average_review_score
+        avg(r.review_score) as average_review_score
 
+    from {{ ref('stg_reviews') }} r
 
-    from {{ ref('stg_reviews') }}
+    join {{ ref('stg_orders') }} o
 
-    group by order_id
+        using(order_id)
+
+    join {{ ref('stg_order_items') }} oi
+
+        using(order_id)
+
+    group by oi.product_id
 
 )
 
 
 select
 
-
     ps.product_id,
-
 
     pi.product_category_name,
 
-
     ps.total_orders,
-
 
     ps.total_revenue,
 
-
     ps.average_price,
 
-
-    avg(r.average_review_score)
-        as average_review_score
-
+    r.average_review_score
 
 from product_sales ps
-
 
 left join product_info pi
 
 using(product_id)
 
-
-left join {{ ref('stg_order_items') }} oi
-
-using(product_id)
-
-
 left join reviews r
 
-using(order_id)
-
-
-group by
-
-    ps.product_id,
-
-    pi.product_category_name,
-
-    ps.total_orders,
-
-    ps.total_revenue,
-
-    ps.average_price
+using(product_id)
