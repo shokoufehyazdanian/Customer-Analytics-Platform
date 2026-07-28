@@ -4,14 +4,18 @@ with customer_orders as (
 
     select
 
-        customer_unique_id,
-        order_id,
-        purchase_date
+        c.customer_unique_id,
+        o.order_id,
+        o.purchase_date
 
-    from {{ ref('stg_orders') }}
+    from {{ ref('stg_orders') }} o
 
-    where order_status = 'delivered'
-      and purchase_date < '{{ snapshot_date }}'
+    left join {{ ref('stg_customers') }} c
+
+        on o.customer_id = c.customer_id
+
+    where o.order_status = 'delivered'
+      and o.purchase_date < '{{ snapshot_date }}'
 
 ),
 
