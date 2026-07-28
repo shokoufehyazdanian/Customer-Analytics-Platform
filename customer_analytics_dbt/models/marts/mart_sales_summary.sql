@@ -1,6 +1,7 @@
 with orders as (
 
     select *
+
     from {{ ref('stg_orders') }}
 
 ),
@@ -8,9 +9,11 @@ with orders as (
 order_items as (
 
     select *
+
     from {{ ref('stg_order_items') }}
 
 )
+
 
 select
 
@@ -18,21 +21,24 @@ select
 
     count(distinct orders.customer_id) as total_customers,
 
-    sum(order_items.price) as revenue,
+    sum(order_items.item_price) as revenue,
 
-  
 
     round(
-    (
-        sum(order_items.price)
+
+        (
+
+        sum(order_items.item_price)
+
         /
+
         count(distinct orders.order_id)
-    )::numeric,
-    2
+
+        )::numeric,
+
+        2
+
     ) as average_order_value
-
-
-
 
 
 from orders
