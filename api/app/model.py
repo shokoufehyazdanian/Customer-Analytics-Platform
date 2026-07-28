@@ -2,7 +2,7 @@ from pathlib import Path
 
 import joblib
 
-MODEL_PATH = Path(__file__).parent.parent / "models" / "churn_model.pkl"
+MODEL_PATH = Path("/app/ml/models/churn_model.pkl")
 
 model = None
 
