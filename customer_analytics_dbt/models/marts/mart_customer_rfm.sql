@@ -22,7 +22,7 @@ customer_value as (
 
         order_id,
 
-        sum(price) as order_value
+        sum(item_price) as order_value
 
     from {{ ref('stg_order_items') }}
 
