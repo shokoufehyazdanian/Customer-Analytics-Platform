@@ -1,15 +1,118 @@
 version: 2
+
 sources:
+
   - name: ecommerce
     schema: public
+
     tables:
+
+      - name: olist_orders_dataset
+
+      - name: olist_customers_dataset
+
+      - name: olist_order_items_dataset
+
       - name: olist_order_reviews_dataset
 
-      
+      - name: olist_products_dataset
+
+
 models:
-    
-    
+
+
+  # =========================
+  # STAGING MODELS
+  # =========================
+
+  - name: stg_orders
+    description: "Cleaned orders staging model"
+
+    columns:
+
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Customer identifier"
+        tests:
+          - not_null
+
+
+  - name: stg_customers
+    description: "Cleaned customers staging model"
+
+    columns:
+
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+
+
+  - name: stg_products
+    description: "Cleaned products staging model"
+
+    columns:
+
+      - name: product_id
+        description: "Unique product identifier"
+        tests:
+          - unique
+          - not_null
+
+
+  - name: stg_order_items
+    description: "Cleaned order items staging model"
+
+    columns:
+
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: product_id
+        tests:
+          - not_null
+
+
+  - name: stg_reviews
+    description: "Cleaned customer reviews staging model"
+
+    columns:
+
+      - name: review_id
+        tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        tests:
+          - not_null
+
+
+
+  # =========================
+  # MART MODELS
+  # =========================
+
+  - name: fact_orders
+    description: "Orders fact table"
+
+    columns:
+
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+
+
   - name: mart_product_performance
+    description: "Product level sales performance metrics"
 
     columns:
 
@@ -21,74 +124,31 @@ models:
         tests:
           - not_null
 
-  - name: stg_orders
-    description: "Cleaned orders staging model"
-
-    columns:
-      - name: order_id
-        tests:
-          - unique
-          - not_null
-
-      - name: customer_id
-        tests:
-          - not_null
-
-
-  - name: stg_customers
-    description: "Cleaned customers staging model"
-
-    columns:
-      - name: customer_id
-        tests:
-          - unique
-          - not_null
-
-
-  - name: stg_products
-    description: "Cleaned products staging model"
-
-    columns:
-      - name: product_id
-        tests:
-          - unique
-          - not_null
-
-
-  - name: fact_orders
-
-
-    description: "Orders fact table"
-
-    columns:
-      - name: order_id
-        tests:
-          - unique
-          - not_null
-
-          
-  - name: stg_reviews
 
   - name: mart_sales_summary
-    description: Sales KPIs
+    description: "Sales KPI summary"
+
 
   - name: mart_customer_rfm
+    description: "Customer segmentation using RFM metrics"
 
-  
-  
+
   - name: mart_daily_sales
     description: "Daily sales summary including orders and revenue"
 
     columns:
+
       - name: sales_date
         description: "Date of sales"
+
 
       - name: orders
         description: "Number of orders per day"
         tests:
           - not_null
 
+
       - name: revenue
         description: "Total revenue per day"
         tests:
-         - not_null
+          - not_null
