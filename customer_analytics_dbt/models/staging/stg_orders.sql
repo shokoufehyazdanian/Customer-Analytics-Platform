@@ -13,8 +13,7 @@ select
     o.order_delivered_customer_date::timestamp as delivery_date
 
 
-from public.olist_orders_dataset o
-
+from {{ source('ecommerce', 'olist_orders_dataset') }} o
 
 left join public.olist_customers_dataset c
 
