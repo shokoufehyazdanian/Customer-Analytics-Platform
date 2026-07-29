@@ -399,7 +399,7 @@ http://localhost:8000/docs
 
 Endpoint:
 
-POST http://localhost:8000/predict
+POST http://localhost:8000/docs
 
 Example request:
 
