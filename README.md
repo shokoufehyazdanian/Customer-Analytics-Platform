@@ -380,19 +380,6 @@ http://localhost:8080
 
 ### FastAPI
 
-API:
-
-```
-http://localhost:8000
-```
-
-Swagger documentation:
-
-```
-http://localhost:8000/docs
-```
-
----
 ## Demo
 
 ### API Example
@@ -405,16 +392,17 @@ Example request:
 
 ```json
 {
-  "recency": 30,
-  "frequency": 5,
-  "monetary": 450
+  "frequency": 30,
+  "monetary": 5,
+  "recency": 450,
+  "avg_order_value": 90
 }
 ```
 Response: 
 ```json
 {
-  "churn_prediction": 0,
-  "probability": 0.87
+  "churn_prediction": 1,
+  "probability": 0.51
 }
 ```
 
