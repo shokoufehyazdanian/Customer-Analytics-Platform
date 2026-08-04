@@ -46,6 +46,7 @@ services:
       - ./src:/opt/airflow/src
       - ./customer_analytics_dbt:/opt/customer_analytics_dbt
       - ./data:/opt/airflow/data
+      - ./ml:/opt/airflow/ml
 
     command: airflow standalone
 
