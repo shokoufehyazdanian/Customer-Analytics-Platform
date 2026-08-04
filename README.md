@@ -237,7 +237,7 @@ Make sure you have installed:
 
 * Docker Desktop
 * Docker Compose
-
+* A `.env` file is required for database configuration.
 No local Python environment is required because all services run inside Docker containers.
 
 ---
@@ -247,9 +247,20 @@ No local Python environment is required because all services run inside Docker c
 ```bash
 git clone https://github.com/shokoufehyazdanian/Customer-Analytics-Platform.git
 ```
+## 2. Environment Configuration
 
+Create a `.env` file in the project root directory:
 
-## 2. Dataset Setup
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=customer_analytics
+
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+```
+
+## 3. Dataset Setup
 
 Raw datasets are not included in this repository because of their size.
 
@@ -281,7 +292,7 @@ data/
 
 ---
 
-## 3. Start Docker Services
+## 4. Start Docker Services
 
 Build and start all services:
 
@@ -300,7 +311,7 @@ This starts:
 
 ---
 
-## 4. Load Raw Data
+## 5. Load Raw Data
 
 The data_loader Docker service executes load_raw_data.py
 and loads CSV files into PostgreSQL automatically during startup.
@@ -325,7 +336,7 @@ Finished loading data
 
 ---
 
-## 5. Run dbt Transformations
+## 6. Run dbt Transformations
 
 Note: dbt is installed inside the Airflow Docker container.
 
@@ -368,7 +379,7 @@ dbt creates analytical tables including:
 - mart_sales_summary
 - mart_product_performance
 
-## 6. Access Applications
+## 7. Access Applications
 
 ### Airflow
 
@@ -406,7 +417,7 @@ Response:
 }
 ```
 
-## 7. Stop Services
+## 8. Stop Services
 
 Stop all containers:
 
