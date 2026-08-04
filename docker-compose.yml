@@ -47,21 +47,24 @@ services:
       - ./customer_analytics_dbt:/opt/customer_analytics_dbt
       - ./data:/opt/airflow/data
 
-    command:
-      airflow standalone
+    command: airflow standalone
 
-api:
 
-  build:
-    context: ./api
+  api:
+    build:
+      context: ./api
 
-  container_name:
-    churn_api
+    container_name: churn_api
 
-  ports:
-    - "8000:8000"
+    depends_on:
+      - postgres
 
-  volumes:
-    - ./ml:/app/ml
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./ml:/app/ml
+
+
 volumes:
   postgres_data:
