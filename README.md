@@ -2,8 +2,13 @@
 
 ![Docker](https://img.shields.io/badge/Docker-enabled-blue)
 ![Python](https://img.shields.io/badge/Python-3.12-yellow)
-![dbt](https://img.shields.io/badge/dbt-analytics-orange)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
+![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-workflow%20orchestration-red)
+![dbt](https://img.shields.io/badge/dbt-analytics-orange)
+![FastAPI](https://img.shields.io/badge/FastAPI-API%20service-green)
+![MLflow](https://img.shields.io/badge/MLflow-experiment%20tracking-blue)
+![Power BI](https://img.shields.io/badge/Power%20BI-dashboard-yellow)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI/CD-black)
 
 End-to-End Data Analytics & Machine Learning Platform
 
@@ -29,70 +34,68 @@ to answer these questions.
 ```mermaid
 flowchart LR
 
-    A[Olist CSV Dataset<br/>data/raw] --> B[Docker Data Loader<br/>Python + Pandas]
+    A[Olist CSV Dataset<br/>data/raw] --> B[Airflow DAG<br/>customer_analytics_pipeline]
 
-    B --> C[(PostgreSQL<br/>Raw Layer)]
+    B --> C[Python Ingestion Task<br/>Pandas]
 
-    C --> D[Great Expectations<br/>Data Validation]
+    C --> D[(PostgreSQL<br/>Raw Layer)]
 
-    C --> E[dbt Transformation Layer]
+    D --> E[Great Expectations<br/>Data Validation]
 
-    E --> E1[Staging Models]
-    E --> E2[Analytics Marts]
+    D --> F[dbt Transformation Layer]
 
-    E2 --> F[Power BI Dashboard]
+    F --> F1[Staging Models]
+    F --> F2[Analytics Marts]
 
-    E2 --> G[Feature Engineering]
+    F2 --> G[Power BI Dashboard]
 
-    G --> H[ML Pipeline<br/>Scikit-learn/XGBoost]
+    F2 --> H[Feature Engineering]
 
-    H --> I[MLflow<br/>Experiment Tracking]
+    H --> I[ML Pipeline<br/>Scikit-learn/XGBoost]
 
-    H --> J[FastAPI<br/>Churn Prediction API]
+    I --> J[MLflow<br/>Experiment Tracking]
 
-    K[Airflow Scheduler<br/>Workflow Orchestration] --> B
-    K --> C
-    K --> D
-    K --> E
-    K --> H
+    I --> K[FastAPI<br/>Churn Prediction API]
 
 ```
 
-## Docker Services
+
+# Docker Services
 
 | Service | Purpose |
 |---|---|
 | postgres | PostgreSQL database storing raw and transformed data |
-| data_loader | Python ETL container loading CSV files |
-| airflow | Workflow orchestration and dbt execution |
+| airflow | Workflow orchestration, ingestion, and dbt execution |
 | churn_api | FastAPI service for churn prediction |
 
-## Tech Stack
 
-### Data Engineering
+# Tech Stack
+
+## Data Engineering
 
 - Python
 - PostgreSQL
 - Docker
+- Apache Airflow
 - dbt
 - Great Expectations
 
 
-### Analytics
+## Analytics
 
 - SQL
 - Pandas
 - Power BI
 
 
-### Machine Learning
+## Machine Learning
 
 - Scikit-learn
 - XGBoost
 - MLflow
 
 
-### Deployment
+## Deployment
 
 - FastAPI
 - Docker
@@ -103,18 +106,18 @@ flowchart LR
 
 customer-analytics-platform/
 
-```text
+```
 .
 ├── data
 │   └── raw
 │       └── dataset files
 │
-├── data_loader
-│   ├── Dockerfile
-│   └── load_raw_data.py
+├── airflow
+│   └── dags
+│       └── customer_analytics_pipeline.py
 │
 ├── src
-│   └── data ingestion
+│   └── ingestion scripts
 │
 ├── customer_analytics_dbt
 │   └── transformation models
@@ -132,149 +135,19 @@ customer-analytics-platform/
 │
 └── docker-compose.yml
 ```
-## Data Pipeline
+# Data Pipeline
 
+## 1. Data Ingestion
 
-1. Data ingestion
+Raw datasets are loaded into PostgreSQL using an automated Airflow ingestion task.
 
-Raw datasets are loaded into PostgreSQL using a dedicated Docker data loader service.
+The ingestion task reads CSV files from:
 
-The loader reads CSV files from:
-
+```
 data/raw/
+```
 
 Expected files:
-
-data/raw/
-```text
-├── olist_orders_dataset.csv
-├── olist_order_items_dataset.csv
-├── olist_products_dataset.csv
-├── olist_order_reviews_dataset.csv
-├── olist_customers_dataset.csv
-├── olist_sellers_dataset.csv
-├── olist_geolocation_dataset.csv
-├── olist_order_payments_dataset.csv
-└── product_category_name_translation.csv
-```
-The data_loader Docker service executes load_raw_data.py
-and loads raw Olist datasets into the PostgreSQL raw layer.
-
-2. Data validation
-
-Great Expectations validates data quality.
-
-
-3. Data transformation
-
-dbt creates analytical models.
-
-
-4. Analytics
-
-Business KPIs are generated.
-
-
-5. Machine Learning
-
-Customer churn prediction model is trained.
-
-## Dashboard Preview
-
-
-### Executive Overview
-
-![Dashboard](dashboard/screenshots/dashboard.png)
-
-### Products 
-
-![Products](dashboard/screenshots/products.png)
-
-## Machine Learning Model
-
-
-### Problem
-
-Customer churn prediction.
-
-
-### Features
-
-- Recency
-- Frequency
-- Monetary Value
-- Average Order Value
-
-
-### Models Tested
-
-- Logistic Regression
-- Random Forest
-- XGBoost
-
-
-### Evaluation Metrics
-
-- Accuracy
-- Precision
-- Recall
-- ROC-AUC
-
-Best Model:
-
-Random Forest
-
-ROC-AUC:
-0.67
-
-
-## How To Run
-
-
-### Prerequisites
-
-Make sure you have installed:
-
-* Docker Desktop
-* Docker Compose
-* A `.env` file is required for database configuration.
-No local Python environment is required because all services run inside Docker containers.
-
----
-
-## 1. Clone Repository
-
-```bash
-git clone https://github.com/shokoufehyazdanian/Customer-Analytics-Platform.git
-```
-## 2. Environment Configuration
-
-Create a `.env` file in the project root directory:
-
-```env
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=customer_analytics
-
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-```
-
-## 3. Dataset Setup
-
-Raw datasets are not included in this repository because of their size.
-
-Download the Brazilian E-Commerce Public Dataset by Olist from Kaggle:
-
-https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
-
-Extract the CSV files into:
-
-```
-data/raw/
-```
-
-Expected structure:
 
 ```
 data/
@@ -290,6 +163,143 @@ data/
     └── product_category_name_translation.csv
 ```
 
+The Airflow DAG loads raw Olist datasets into PostgreSQL.
+
+---
+
+## 2. Data Validation
+
+Great Expectations validates data quality and consistency.
+
+---
+
+## 3. Data Transformation
+
+dbt creates:
+
+- staging models
+- fact tables
+- analytics marts
+- business KPI models
+
+---
+
+## 4. Analytics
+
+Business KPIs and customer analytics models are generated.
+
+---
+
+## 5. Machine Learning
+
+Customer churn prediction is performed using engineered customer behavior features.
+
+---
+## Dashboard Preview
+
+
+### Executive Overview
+
+![Dashboard](dashboard/screenshots/dashboard.png)
+
+### Products 
+
+![Products](dashboard/screenshots/products.png)
+
+# Machine Learning Model
+
+## Problem
+
+Customer churn prediction.
+
+
+## Features
+
+- Recency
+- Frequency
+- Monetary Value
+- Average Order Value
+
+
+## Models Tested
+
+- Logistic Regression
+- Random Forest
+- XGBoost
+
+
+## Evaluation Metrics
+
+- Accuracy
+- Precision
+- Recall
+- ROC-AUC
+
+
+## Best Model
+
+Random Forest
+
+
+ROC-AUC:
+
+0.67
+
+
+# How To Run
+
+## Prerequisites
+
+Make sure you have installed:
+
+- Docker Desktop
+- Docker Compose
+
+
+A `.env` file is required for database configuration.
+
+No local Python environment is required because all services run inside Docker containers.
+
+---
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/shokoufehyazdanian/Customer-Analytics-Platform.git
+```
+
+---
+
+## 2. Environment Configuration
+
+Create a `.env` file in the project root directory:
+
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=customer_analytics
+
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+```
+
+---
+
+## 3. Dataset Setup
+
+Raw datasets are not included in this repository because of their size.
+
+Download the Brazilian E-Commerce Public Dataset by Olist from Kaggle:
+
+https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+
+
+Extract CSV files into:
+
+```
+data/raw/
+```
+
 ---
 
 ## 4. Start Docker Services
@@ -302,74 +312,52 @@ docker compose up --build -d
 
 This starts:
 
-| Service     | Description                              |
-| ----------- | ---------------------------------------- |
-| PostgreSQL  | Data warehouse database                  |
-| Data Loader | Loads raw CSV files into PostgreSQL      |
-| Airflow     | Workflow orchestration and dbt execution |
-| FastAPI     | Churn prediction API                     |
+| Service | Description |
+|---|---|
+| PostgreSQL | Data warehouse database |
+| Airflow | Workflow orchestration, ingestion, and dbt execution |
+| FastAPI | Churn prediction API |
 
 ---
 
-## 5. Load Raw Data
+## 5. Run Automated Data Pipeline
 
-The data_loader Docker service executes load_raw_data.py
-and loads CSV files into PostgreSQL automatically during startup.
+Data ingestion, transformations, and data quality checks are orchestrated by Apache Airflow.
 
-Check loading status:
-
-```bash
-docker logs customer_data_loader
-```
-
-Successful output:
+Open Airflow:
 
 ```
-Loading olist_orders_dataset.csv...
-Loaded olist_orders_dataset: xxxx rows
-
-Loading olist_products_dataset.csv...
-Loaded olist_products_dataset: xxxx rows
-
-Finished loading data
+http://localhost:8080
 ```
+
+Trigger the DAG:
+
+```
+customer_analytics_pipeline
+```
+
+The DAG executes:
+
+```
+ingestion
+    |
+    v
+dbt_run
+    |
+    v
+dbt_test
+```
+
+The pipeline automatically:
+
+- loads raw CSV files into PostgreSQL
+- runs dbt transformations
+- creates analytics models
+- executes dbt data quality tests
 
 ---
 
-## 6. Run dbt Transformations
-
-Note: dbt is installed inside the Airflow Docker container.
-
-Open the Airflow container:
-```bash
-docker exec -it customer_airflow bash
-```
-
-Go to dbt project:
-
-```bash
-cd /opt/customer_analytics_dbt
-```
-
-Run transformations:
-
-```bash
-dbt run
-```
-
-Run data quality tests:
-
-```bash
-dbt test
-```
-
-dbt creates:
-- staging models
-- fact tables
-- customer analytics marts
-- business KPI models
-
-## Analytics Models
+# Analytics Models
 
 dbt creates analytical tables including:
 
@@ -379,9 +367,12 @@ dbt creates analytical tables including:
 - mart_sales_summary
 - mart_product_performance
 
-## 7. Access Applications
 
-### Airflow
+---
+
+# Access Applications
+
+## Airflow
 
 Open:
 
@@ -389,15 +380,15 @@ Open:
 http://localhost:8080
 ```
 
-### FastAPI
 
-## Demo
-
-### API Example
+## FastAPI
 
 Endpoint:
 
+```
 POST http://localhost:8000/docs
+```
+
 
 Example request:
 
@@ -409,7 +400,10 @@ Example request:
   "avg_order_value": 90
 }
 ```
-Response: 
+
+
+Response:
+
 ```json
 {
   "churn_prediction": 1,
@@ -417,7 +411,9 @@ Response:
 }
 ```
 
-## 8. Stop Services
+---
+
+# Stop Services
 
 Stop all containers:
 
@@ -427,16 +423,19 @@ docker compose down
 
 ---
 
-## Project Execution Flow
+# Project Execution Flow
 
 ```
 CSV Files
     |
     v
-Data Loader Container
+Airflow DAG
     |
     v
-PostgreSQL
+Python Ingestion Task
+    |
+    v
+PostgreSQL Raw Layer
     |
     v
 dbt Transformations
@@ -451,11 +450,11 @@ Machine Learning Model
 FastAPI Prediction API
 ```
 
-All components run inside Docker containers to provide a reproducible environment.
+All components run inside Docker containers and are orchestrated through Apache Airflow to provide a reproducible automated pipeline.
 
+---
 
-## Future Improvements
-
+# Future Improvements
 
 - Cloud deployment (AWS/Azure)
 - Data warehouse migration
